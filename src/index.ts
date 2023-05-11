@@ -11,27 +11,26 @@ const prompt: promptSync.Prompt = promptSync();
 
 function getLetters(): string[] {
     let input:string[] = [];
-    while (input.length !== 9){
+    while (input.length !== 7){
         clear(); 
-        input = prompt('enter your 9 characters').toUpperCase().split('');
+        input = prompt('enter your 7 characters:\n').toUpperCase().split('');
     }
     return input;
 }
 
 function hasLetters(word: string, myLetters: string[]): boolean{
-    let res: boolean = true;
-
+    let result: boolean = true;
     let temp: string[] = Object.assign([], myLetters);
 
     word.split('').map((wordLetter) => {
         if (!temp.includes(wordLetter)){
-            res = false;
+            result = false;
         }
         else {
             temp.splice(temp.indexOf(wordLetter), 1);
         }
     })
-    return res;
+    return result;
 }
 
 function getPoints(word:string): number {
@@ -59,18 +58,40 @@ let biggest: string = '';
 
 myLetters = getLetters();
 
-const possible: string[] = scrabbleWords.filter((word) => {
+const refined: string[] = scrabbleWords.filter((word) => {
     return hasLetters(word, myLetters);
 });
-possible.map((word) => {
+
+refined.map((word) => {
     biggest = getPoints(word) > getPoints(biggest) ? word : biggest;
 })
 
-possible.filter((word) => {
-    return getPoints(word) > getPoints(biggest) ? word : biggest;
+console.log('=====================');
+
+
+
+
+
+
+
+
+
+
+
+const res:string[] = refined.filter((word) => {
+    //biggest = getPoints(word) > getPoints(biggest) ? word : biggest;
+    if (getPoints(word) >= getPoints(biggest)) {
+        biggest = word;
+        return true;
+    }
+    return false;
 })
 
-console.log(`Best Word: ${biggest}\nWith score: ${getPoints(biggest)}\n With no multiplier`);
+//console.log(`Best Word: ${biggest}\nWith score: ${getPoints(biggest)}\n With no multiplier`);
 
-
-//const words: string[] = calcWords(letters, scrabbleWords);
+console.log(`Best Options:`)
+res.map((word) => {
+    //biggest = getPoints(word) > getPoints(biggest) ? word : biggest;
+    console.log(word);
+})
+console.log(`With score: ${getPoints(biggest)}\n With no multiplier`)
