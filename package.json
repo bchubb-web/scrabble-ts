@@ -1,0 +1,29 @@
+{
+  "name": "scrabble-ts",
+  "version": "1.0.0",
+  "description": "a cli scrabble solver, finding the best word from the given letters.",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc; cp -r ./src/assets/ ./dist/assets",
+
+    "dev": "npm run build;node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/clear": "^0.1.2",
+    "@types/node": "^20.1.2",
+    "fs": "^0.0.1-security",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@types/prompt-sync": "^4.2.0",
+    "clear": "^0.1.0",
+    "eslint": "^8.40.0",
+    "path": "^0.12.7",
+    "prompt-sync": "^4.2.0"
+  }
+}
