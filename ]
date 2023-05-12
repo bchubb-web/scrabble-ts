@@ -5,6 +5,10 @@ import fs from 'fs';
 import scrabbleLetters from './assets/letters.json' assert {type: "json"};
 const scrabbleWords:string[] = fs.readFileSync('./dist/assets/words.txt', 'utf-8').split('\r\n');
 
+// init promt for user input
+const prompt: promptSync.Prompt = promptSync();
+
+
 
 /**
    * Returns an array of scrabble letters.
@@ -16,8 +20,7 @@ const scrabbleWords:string[] = fs.readFileSync('./dist/assets/words.txt', 'utf-8
 function getLetters(): string[] {
     let input:string[] = [];
     while (input.length !== 7){
-        clear();
-        input = prompt('enter your 7 characters:').toUpperCase().split('');
+        input = prompt('enter your 7 characters:\n').toUpperCase().split('');
     }
     return input;
 }
@@ -36,17 +39,9 @@ function hasLetters(word: string, myLetters: string[]): boolean{
     let temp: string[] = Object.assign([], myLetters);
 
     word.split('').map((wordLetter) => {
-        if ( !temp.includes(wordLetter)){
-            if (temp.includes(' ')){
-                temp.splice(temp.indexOf(' '), 1);
-            }
-            else {
-                result = false;
-            }
+        if (!temp.includes(wordLetter)){
+            result = false;
         }
-        /*else if (temp.includes(' ')){
-            temp.splice(temp.indexOf(wordLetter), 1);
-        }*/
         else {
             temp.splice(temp.indexOf(wordLetter), 1);
         }
@@ -64,17 +59,12 @@ function hasLetters(word: string, myLetters: string[]): boolean{
    */
 function getPoints(word:string): number {
     let total: number = 0;
-    /*word.split('').map((letter)=>{
+    word.split('').map((letter)=>{
         total = total + scrabbleLetters[letter.toLowerCase()].points;
-    })*/
-    word.split('').reduce((total, letter) => {
-        return total + scrabbleLetters[letter.toLowerCase()].points;
     })
     return total;
 }
 
-// init promt for user input
-const prompt: promptSync.Prompt = promptSync();
 
 
 // value that will hold the largest word;
@@ -84,17 +74,9 @@ let biggest: string = '';
 const myLetters: string[] = getLetters();
 
 //refine words down to only those that contain the letters given
-/*const refined: string[] = scrabbleWords.filter((word) => {
+const refined: string[] = scrabbleWords.filter((word) => {
     return hasLetters(word, myLetters);
-});*/
-
-
-const refined: string[] = [];
-for (let i:number = 0; i < scrabbleWords.length;i++){
-    if(hasLetters(scrabbleWords[i], myLetters)){
-        refined.push(scrabbleWords[i]);
-    }
-}
+});
 
 // find the highest score in the array
 refined.map((word) => {
