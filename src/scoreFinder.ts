@@ -5,10 +5,6 @@ import fs from 'fs';
 import scrabbleLetters from './assets/letters.json' assert {type: "json"};
 const scrabbleWords:string[] = fs.readFileSync('./dist/assets/words.txt', 'utf-8').split('\r\n');
 
-// init promt for user input
-const prompt: promptSync.Prompt = promptSync();
-
-
 
 /**
    * Returns an array of scrabble letters.
@@ -20,7 +16,8 @@ const prompt: promptSync.Prompt = promptSync();
 function getLetters(): string[] {
     let input:string[] = [];
     while (input.length !== 7){
-        input = prompt('enter your 7 characters:\n').toUpperCase().split('');
+        clear();
+        input = prompt('enter your 7 characters:').toUpperCase().split('');
     }
     return input;
 }
@@ -39,8 +36,13 @@ function hasLetters(word: string, myLetters: string[]): boolean{
     let temp: string[] = Object.assign([], myLetters);
 
     word.split('').map((wordLetter) => {
-        if (!temp.includes(wordLetter)){
-            result = false;
+        if ( !temp.includes(wordLetter)){
+            if (temp.includes(' ')){
+                temp.splice(temp.indexOf(' '), 1);
+            }
+            else {
+                result = false;
+            }
         }
         else {
             temp.splice(temp.indexOf(wordLetter), 1);
@@ -65,18 +67,23 @@ function getPoints(word:string): number {
     return total;
 }
 
+// init promt for user input
+const prompt: promptSync.Prompt = promptSync();
 
 
 // value that will hold the largest word;
-let biggest: string = '';
+let biggest: string = ' ';
 
 //string array containing the characters inputted by the user
 const myLetters: string[] = getLetters();
 
 //refine words down to only those that contain the letters given
-const refined: string[] = scrabbleWords.filter((word) => {
-    return hasLetters(word, myLetters);
-});
+const refined: string[] = [];
+for (let i:number = 0; i < scrabbleWords.length;i++){
+    if(hasLetters(scrabbleWords[i], myLetters)){
+        refined.push(scrabbleWords[i]);
+    }
+}
 
 // find the highest score in the array
 refined.map((word) => {

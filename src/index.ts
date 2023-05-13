@@ -44,9 +44,6 @@ function hasLetters(word: string, myLetters: string[]): boolean{
                 result = false;
             }
         }
-        /*else if (temp.includes(' ')){
-            temp.splice(temp.indexOf(wordLetter), 1);
-        }*/
         else {
             temp.splice(temp.indexOf(wordLetter), 1);
         }
@@ -64,11 +61,8 @@ function hasLetters(word: string, myLetters: string[]): boolean{
    */
 function getPoints(word:string): number {
     let total: number = 0;
-    /*word.split('').map((letter)=>{
+    word.split('').map((letter)=>{
         total = total + scrabbleLetters[letter.toLowerCase()].points;
-    })*/
-    word.split('').reduce((total, letter) => {
-        return total + scrabbleLetters[letter.toLowerCase()].points;
     })
     return total;
 }
@@ -78,17 +72,12 @@ const prompt: promptSync.Prompt = promptSync();
 
 
 // value that will hold the largest word;
-let biggest: string = '';
+let biggest: string = ' ';
 
 //string array containing the characters inputted by the user
 const myLetters: string[] = getLetters();
 
 //refine words down to only those that contain the letters given
-/*const refined: string[] = scrabbleWords.filter((word) => {
-    return hasLetters(word, myLetters);
-});*/
-
-
 const refined: string[] = [];
 for (let i:number = 0; i < scrabbleWords.length;i++){
     if(hasLetters(scrabbleWords[i], myLetters)){
