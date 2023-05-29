@@ -24,7 +24,7 @@ export function isTripleWord(x: number, y: number, size: number):boolean {
 
 export function isDoubleWord(x: number, y: number, size: number):boolean {return false}
 
-export function getMultiplier(x: number, y: number): Multiplier {
+export function getMultiplier(x: number, y: number, size: number): Multiplier {
     if (isTripleWord(x, y, size)){
         return { power: 3, scope: 'word' };
     }
@@ -35,8 +35,7 @@ export function getMultiplier(x: number, y: number): Multiplier {
 }
 
 
-export function outputBoard(board: Board, size: number): void {
-    let output = '';
+export function outputBoard(board: Board, size: number): void { let output = '';
     board.forEach((tile, index) => {
         output = output + (index % size === 0 ? '\n' + tile.multiplier.power : tile.multiplier.power);
     })
